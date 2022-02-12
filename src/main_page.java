@@ -43,7 +43,24 @@ public class main_page extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         studentTable = new javax.swing.JTable();
         resultPanel = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        resultIdTF = new javax.swing.JTextField();
+        serachBTN = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        currentCGPATF = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        completedCreditTF = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        resultTable = new javax.swing.JTable();
+        serachBTN1 = new javax.swing.JButton();
+        resultResetBTN = new javax.swing.JButton();
         queriesPanel = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        queryIDTF = new javax.swing.JTextField();
+        querySearchBTN = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        display = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dashboard");
@@ -268,7 +285,6 @@ public class main_page extends javax.swing.JFrame {
             }
         });
 
-        studentTable.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         studentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -394,20 +410,172 @@ public class main_page extends javax.swing.JFrame {
 
         dashboardTabPanel.addTab("tab1", profilePanel);
 
-        resultPanel.setBackground(new java.awt.Color(0, 153, 153));
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel13.setText("Student ID");
+
+        resultIdTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        serachBTN.setBackground(new java.awt.Color(102, 102, 255));
+        serachBTN.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        serachBTN.setForeground(new java.awt.Color(255, 255, 255));
+        serachBTN.setText("Search");
+        serachBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serachBTNActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel14.setText("Current CGPA");
+
+        currentCGPATF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel15.setText("Completed Credit");
+
+        completedCreditTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel16.setText("Update Result");
+
+        resultTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Course", "Credit", "Grade"
+            }
+        ));
+        jScrollPane2.setViewportView(resultTable);
+
+        serachBTN1.setBackground(new java.awt.Color(0, 204, 51));
+        serachBTN1.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        serachBTN1.setForeground(new java.awt.Color(255, 255, 255));
+        serachBTN1.setText("Update");
+        serachBTN1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serachBTN1ActionPerformed(evt);
+            }
+        });
+
+        resultResetBTN.setBackground(new java.awt.Color(102, 102, 255));
+        resultResetBTN.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        resultResetBTN.setForeground(new java.awt.Color(255, 255, 255));
+        resultResetBTN.setText("Reset");
+        resultResetBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resultResetBTNActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout resultPanelLayout = new javax.swing.GroupLayout(resultPanel);
+        resultPanel.setLayout(resultPanelLayout);
+        resultPanelLayout.setHorizontalGroup(
+            resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(resultPanelLayout.createSequentialGroup()
+                .addGap(99, 99, 99)
+                .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(resultPanelLayout.createSequentialGroup()
+                        .addComponent(resultResetBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(serachBTN1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 848, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(resultPanelLayout.createSequentialGroup()
+                            .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(resultPanelLayout.createSequentialGroup()
+                                    .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(68, 68, 68)
+                                    .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(resultIdTF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(currentCGPATF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(completedCreditTF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(33, 33, 33)
+                            .addComponent(serachBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(88, Short.MAX_VALUE))
+        );
+        resultPanelLayout.setVerticalGroup(
+            resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(resultPanelLayout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resultIdTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(serachBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(currentCGPATF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(completedCreditTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(serachBTN1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resultResetBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(165, Short.MAX_VALUE))
+        );
+
         dashboardTabPanel.addTab("tab2", resultPanel);
 
-        queriesPanel.setBackground(new java.awt.Color(255, 0, 51));
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel17.setText("Student ID");
+
+        queryIDTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        querySearchBTN.setBackground(new java.awt.Color(102, 102, 255));
+        querySearchBTN.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        querySearchBTN.setForeground(new java.awt.Color(255, 255, 255));
+        querySearchBTN.setText("Search");
+
+        display.setColumns(20);
+        display.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        display.setRows(5);
+        jScrollPane3.setViewportView(display);
 
         javax.swing.GroupLayout queriesPanelLayout = new javax.swing.GroupLayout(queriesPanel);
         queriesPanel.setLayout(queriesPanelLayout);
         queriesPanelLayout.setHorizontalGroup(
             queriesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1035, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, queriesPanelLayout.createSequentialGroup()
+                .addContainerGap(259, Short.MAX_VALUE)
+                .addGroup(queriesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(queriesPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(queryIDTF, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(querySearchBTN)))
+                .addGap(256, 256, 256))
         );
         queriesPanelLayout.setVerticalGroup(
             queriesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(queriesPanelLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(queriesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(queryIDTF, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(querySearchBTN))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         dashboardTabPanel.addTab("tab3", queriesPanel);
@@ -449,6 +617,18 @@ public class main_page extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchTFActionPerformed
 
+    private void serachBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serachBTNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serachBTNActionPerformed
+
+    private void serachBTN1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serachBTN1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serachBTN1ActionPerformed
+
+    private void resultResetBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultResetBTNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_resultResetBTNActionPerformed
+
     public static void main(String args[]) {
  
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -461,9 +641,12 @@ public class main_page extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBTN;
     private javax.swing.JTextField addressTF;
+    private javax.swing.JTextField completedCreditTF;
+    private javax.swing.JTextField currentCGPATF;
     private javax.swing.JTabbedPane dashboardTabPanel;
     private javax.swing.JButton deleteBTN;
     private javax.swing.JComboBox<String> deptBOX;
+    private javax.swing.JTextArea display;
     private javax.swing.JTextField emailTF;
     private javax.swing.JComboBox<String> genderBOX;
     private javax.swing.JTextField idTF;
@@ -471,6 +654,11 @@ public class main_page extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -482,16 +670,25 @@ public class main_page extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField nameTF;
     private javax.swing.JTextField phoneTF;
     private javax.swing.JPanel profilePanel;
     private javax.swing.JPanel profileTab;
     private javax.swing.JPanel queriesPanel;
     private javax.swing.JPanel queriesTab;
+    private javax.swing.JTextField queryIDTF;
+    private javax.swing.JButton querySearchBTN;
     private javax.swing.JButton resetBTN;
+    private javax.swing.JTextField resultIdTF;
     private javax.swing.JPanel resultPanel;
+    private javax.swing.JButton resultResetBTN;
     private javax.swing.JPanel resultTab;
+    private javax.swing.JTable resultTable;
     private javax.swing.JTextField searchTF;
+    private javax.swing.JButton serachBTN;
+    private javax.swing.JButton serachBTN1;
     private javax.swing.JTable studentTable;
     private javax.swing.JButton updateBTN;
     // End of variables declaration//GEN-END:variables
