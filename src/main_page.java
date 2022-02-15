@@ -1,8 +1,20 @@
+import java.sql.*;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+
 
 public class main_page extends javax.swing.JFrame {
 
+     Color defaultColor,clickedColor;
     public main_page() {
         initComponents();
+        
+        defaultColor = new Color(153,153,255);
+        clickedColor = new Color(51,51,255);
+        
+        profileTab.setBackground(clickedColor);
+        resultTab.setBackground(defaultColor);
+        queriesTab.setBackground(defaultColor);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,6 +54,7 @@ public class main_page extends javax.swing.JFrame {
         searchTF = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         studentTable = new javax.swing.JTable();
+        profileSearchBTN = new javax.swing.JButton();
         resultPanel = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         resultIdTF = new javax.swing.JTextField();
@@ -202,11 +215,6 @@ public class main_page extends javax.swing.JFrame {
         jLabel5.setText("Student ID");
 
         idTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        idTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idTFActionPerformed(evt);
-            }
-        });
 
         nameTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
@@ -244,6 +252,11 @@ public class main_page extends javax.swing.JFrame {
         addBTN.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         addBTN.setForeground(new java.awt.Color(255, 255, 255));
         addBTN.setText("Add");
+        addBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBTNActionPerformed(evt);
+            }
+        });
 
         updateBTN.setBackground(new java.awt.Color(51, 153, 255));
         updateBTN.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
@@ -279,11 +292,6 @@ public class main_page extends javax.swing.JFrame {
         jLabel12.setText("Search ");
 
         searchTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        searchTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchTFActionPerformed(evt);
-            }
-        });
 
         studentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -304,6 +312,16 @@ public class main_page extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(studentTable);
 
+        profileSearchBTN.setBackground(new java.awt.Color(153, 153, 255));
+        profileSearchBTN.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        profileSearchBTN.setForeground(new java.awt.Color(255, 255, 255));
+        profileSearchBTN.setText("Search");
+        profileSearchBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileSearchBTNActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
         profilePanel.setLayout(profilePanelLayout);
         profilePanelLayout.setHorizontalGroup(
@@ -319,7 +337,9 @@ public class main_page extends javax.swing.JFrame {
                             .addGroup(profilePanelLayout.createSequentialGroup()
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(profileSearchBTN))
                             .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(profilePanelLayout.createSequentialGroup()
                                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -402,7 +422,8 @@ public class main_page extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profileSearchBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(464, 464, 464))
@@ -587,19 +608,24 @@ public class main_page extends javax.swing.JFrame {
 
     private void profileTabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileTabMouseClicked
         dashboardTabPanel.setSelectedIndex(0);
+        profileTab.setBackground(clickedColor);
+        resultTab.setBackground(defaultColor);
+        queriesTab.setBackground(defaultColor);
     }//GEN-LAST:event_profileTabMouseClicked
 
     private void resultTabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultTabMouseClicked
         dashboardTabPanel.setSelectedIndex(1);
+        profileTab.setBackground(defaultColor);
+        resultTab.setBackground(clickedColor);
+        queriesTab.setBackground(defaultColor);
     }//GEN-LAST:event_resultTabMouseClicked
 
     private void queriesTabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_queriesTabMouseClicked
-        dashboardTabPanel.setSelectedIndex(2);           
+        dashboardTabPanel.setSelectedIndex(2); 
+        profileTab.setBackground(defaultColor);
+        resultTab.setBackground(defaultColor);
+        queriesTab.setBackground(clickedColor);
     }//GEN-LAST:event_queriesTabMouseClicked
-
-    private void idTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idTFActionPerformed
 
     private void updateBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBTNActionPerformed
         // TODO add your handling code here:
@@ -610,12 +636,14 @@ public class main_page extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteBTNActionPerformed
 
     private void resetBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBTNActionPerformed
-        // TODO add your handling code here:
+        idTF.setText("");
+        nameTF.setText("");
+        genderBOX.setSelectedIndex(0);
+        deptBOX.setSelectedIndex(0);
+        emailTF.setText("");
+        phoneTF.setText("");
+        addressTF.setText("");
     }//GEN-LAST:event_resetBTNActionPerformed
-
-    private void searchTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchTFActionPerformed
 
     private void serachBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serachBTNActionPerformed
         // TODO add your handling code here:
@@ -628,6 +656,60 @@ public class main_page extends javax.swing.JFrame {
     private void resultResetBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultResetBTNActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_resultResetBTNActionPerformed
+
+    private void addBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBTNActionPerformed
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+
+            String id = idTF.getText();
+            String name = nameTF.getText();
+            String gender = genderBOX.getItemAt(genderBOX.getSelectedIndex());
+            String dept = deptBOX.getItemAt(deptBOX.getSelectedIndex());
+            String email = emailTF.getText();
+            String contact = phoneTF.getText();
+            String address = addressTF.getText();
+
+            String query = "INSERT INTO student_info(id,name,gender,dept,mail,contactNum,address) values(?,?,?,?,?,?,?)";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, id);
+            statement.setString(2, name);
+            statement.setString(3, gender);
+            statement.setString(4, dept);
+            statement.setString(5, email);
+            statement.setString(6, contact);
+            statement.setString(7, address);
+            int option = JOptionPane.showConfirmDialog(null, "Are You Sure ??");
+            if(option == JOptionPane.YES_OPTION){
+                statement.executeUpdate();
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+                JOptionPane.showMessageDialog(null, "Profile has been created successfully");
+            }else if(option == JOptionPane.CANCEL_OPTION){
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+            } 
+            
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+        
+    }//GEN-LAST:event_addBTNActionPerformed
+
+    private void profileSearchBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileSearchBTNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_profileSearchBTNActionPerformed
 
     public static void main(String args[]) {
  
@@ -675,6 +757,7 @@ public class main_page extends javax.swing.JFrame {
     private javax.swing.JTextField nameTF;
     private javax.swing.JTextField phoneTF;
     private javax.swing.JPanel profilePanel;
+    private javax.swing.JButton profileSearchBTN;
     private javax.swing.JPanel profileTab;
     private javax.swing.JPanel queriesPanel;
     private javax.swing.JPanel queriesTab;
