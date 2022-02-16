@@ -6,7 +6,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class main_page extends javax.swing.JFrame {
 
-     Color defaultColor,clickedColor;
+    Color defaultColor,clickedColor;
+    
     public main_page() {
         initComponents();
         
@@ -309,6 +310,11 @@ public class main_page extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        studentTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                studentTableMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(studentTable);
@@ -629,11 +635,107 @@ public class main_page extends javax.swing.JFrame {
     }//GEN-LAST:event_queriesTabMouseClicked
 
     private void updateBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBTNActionPerformed
-        // TODO add your handling code here:
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+            
+            String id = idTF.getText();
+            String name = nameTF.getText();
+            String gender = genderBOX.getItemAt(genderBOX.getSelectedIndex());
+            String dept = deptBOX.getItemAt(deptBOX.getSelectedIndex());
+            String email = emailTF.getText();
+            String contact = phoneTF.getText();
+            String address = addressTF.getText();
+
+            String query = "UPDATE student_info SET name = ?,gender = ?, dept = ?, mail = ?,contactNum = ?,address = ? WHERE id = ?";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, name);
+            statement.setString(2, gender);
+            statement.setString(3, dept);
+            statement.setString(4, email);
+            statement.setString(5, contact);
+            statement.setString(6, address);
+            statement.setString(7, id);
+            int option = JOptionPane.showConfirmDialog(null, "Are You Sure ??");
+            if(option == JOptionPane.YES_OPTION){
+                statement.executeUpdate();
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+                JOptionPane.showMessageDialog(null, "Record has been updated successfully");
+            }else if(option == JOptionPane.CANCEL_OPTION){
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+            } 
+            
+            DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
+            model.setValueAt("", 0, 0);
+            model.setValueAt("", 0, 1);
+            model.setValueAt("", 0, 2);
+            model.setValueAt("", 0, 3);
+            model.setValueAt("", 0, 4);
+            model.setValueAt("", 0, 5);
+            model.setValueAt("", 0, 6);
+                       
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
     }//GEN-LAST:event_updateBTNActionPerformed
 
     private void deleteBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBTNActionPerformed
-        // TODO add your handling code here:
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+            
+            String id = idTF.getText();            
+
+            String query = "DELETE FROM student_info WHERE id = ?";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, id);
+
+            int option = JOptionPane.showConfirmDialog(null, "Are You Sure ??");
+            if(option == JOptionPane.YES_OPTION){
+                statement.executeUpdate();
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+                JOptionPane.showMessageDialog(null, "Record has been deleted successfully");
+            }else if(option == JOptionPane.CANCEL_OPTION){
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+            }  
+            
+            DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
+            model.setValueAt("", 0, 0);
+            model.setValueAt("", 0, 1);
+            model.setValueAt("", 0, 2);
+            model.setValueAt("", 0, 3);
+            model.setValueAt("", 0, 4);
+            model.setValueAt("", 0, 5);
+            model.setValueAt("", 0, 6);
+                       
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_deleteBTNActionPerformed
 
     private void resetBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBTNActionPerformed
@@ -710,6 +812,15 @@ public class main_page extends javax.swing.JFrame {
                 addressTF.setText("");
             } 
             
+            DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
+            model.setValueAt("", 0, 0);
+            model.setValueAt("", 0, 1);
+            model.setValueAt("", 0, 2);
+            model.setValueAt("", 0, 3);
+            model.setValueAt("", 0, 4);
+            model.setValueAt("", 0, 5);
+            model.setValueAt("", 0, 6);
+            
             DBConnection.close();
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -731,7 +842,7 @@ public class main_page extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
             
             if(result.next()==false){
-                JOptionPane.showMessageDialog(this, "Record is not found");
+                JOptionPane.showMessageDialog(null, "Record is not found");
                 model.setValueAt("", 0, 0);
                 model.setValueAt("", 0, 1);
                 model.setValueAt("", 0, 2);
@@ -759,6 +870,36 @@ public class main_page extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_profileSearchBTNActionPerformed
+
+    private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked
+        DefaultTableModel model = (DefaultTableModel)studentTable.getModel();
+        int selectedRow = studentTable.getSelectedRow();
+        
+        
+        idTF.setText(model.getValueAt(selectedRow, 0)+"");
+        nameTF.setText(model.getValueAt(selectedRow, 1)+"");
+        emailTF.setText(model.getValueAt(selectedRow, 3)+"");
+        phoneTF.setText(model.getValueAt(selectedRow, 4)+"");
+        addressTF.setText(model.getValueAt(selectedRow, 5)+"");
+        
+        if(model.getValueAt(selectedRow, 2).equals("CSE")){
+           deptBOX.setSelectedIndex(0);
+        }else if(model.getValueAt(selectedRow, 2).equals("EEE")){
+            deptBOX.setSelectedIndex(1);
+        }else if(model.getValueAt(selectedRow, 2).equals("BBA")){
+            deptBOX.setSelectedIndex(2);
+        }else{
+            deptBOX.setSelectedIndex(3);
+        }
+        
+        if(model.getValueAt(selectedRow, 6).equals("Male")){
+           genderBOX.setSelectedIndex(0);
+        }else if(model.getValueAt(selectedRow, 6).equals("Female")){
+             genderBOX.setSelectedIndex(1);
+        }else{
+             genderBOX.setSelectedIndex(2);
+        }
+    }//GEN-LAST:event_studentTableMouseClicked
 
     public static void main(String args[]) {
  
