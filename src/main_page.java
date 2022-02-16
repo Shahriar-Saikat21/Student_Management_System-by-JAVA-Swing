@@ -1,6 +1,7 @@
 import java.sql.*;
 import java.awt.Color;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 
 public class main_page extends javax.swing.JFrame {
@@ -643,6 +644,16 @@ public class main_page extends javax.swing.JFrame {
         emailTF.setText("");
         phoneTF.setText("");
         addressTF.setText("");
+        searchTF.setText("");
+        
+        DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
+        model.setValueAt("", 0, 0);
+        model.setValueAt("", 0, 1);
+        model.setValueAt("", 0, 2);
+        model.setValueAt("", 0, 3);
+        model.setValueAt("", 0, 4);
+        model.setValueAt("", 0, 5);
+        model.setValueAt("", 0, 6);
     }//GEN-LAST:event_resetBTNActionPerformed
 
     private void serachBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serachBTNActionPerformed
@@ -708,7 +719,45 @@ public class main_page extends javax.swing.JFrame {
     }//GEN-LAST:event_addBTNActionPerformed
 
     private void profileSearchBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileSearchBTNActionPerformed
-        // TODO add your handling code here:
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+            
+            String searchID = searchTF.getText();
+            String query = "SELECT name,gender,dept,mail,contactNum,address FROM student_info WHERE id = ?";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, searchID);
+            ResultSet result = statement.executeQuery();
+            
+            DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
+            
+            if(result.next()==false){
+                JOptionPane.showMessageDialog(this, "Record is not found");
+                model.setValueAt("", 0, 0);
+                model.setValueAt("", 0, 1);
+                model.setValueAt("", 0, 2);
+                model.setValueAt("", 0, 3);
+                model.setValueAt("", 0, 4);
+                model.setValueAt("", 0, 5);
+                model.setValueAt("", 0, 6);
+                searchTF.setText("");
+            }else{
+                model.setValueAt(searchID, 0, 0);
+                model.setValueAt(result.getString("name"), 0, 1);
+                model.setValueAt(result.getString("dept"), 0, 2);
+                model.setValueAt(result.getString("mail"), 0, 3);
+                model.setValueAt(result.getString("contactNum"), 0, 4);
+                model.setValueAt(result.getString("address"), 0, 5);
+                model.setValueAt(result.getString("gender"), 0, 6);
+                searchTF.setText("");
+            }
+            
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+        
+        
     }//GEN-LAST:event_profileSearchBTNActionPerformed
 
     public static void main(String args[]) {
