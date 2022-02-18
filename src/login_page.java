@@ -154,6 +154,7 @@ public class login_page extends javax.swing.JFrame {
                 dashboard.setLocationRelativeTo(null);
                 this.dispose();
             }
+            DBConnection.close();
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }

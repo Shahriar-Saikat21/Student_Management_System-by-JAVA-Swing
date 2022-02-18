@@ -1,8 +1,22 @@
+import java.sql.*;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 public class main_page extends javax.swing.JFrame {
 
+    Color defaultColor,clickedColor;
+    
     public main_page() {
         initComponents();
+        
+        defaultColor = new Color(153,153,255);
+        clickedColor = new Color(51,51,255);
+        
+        profileTab.setBackground(clickedColor);
+        resultTab.setBackground(defaultColor);
+        queriesTab.setBackground(defaultColor);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,19 +56,22 @@ public class main_page extends javax.swing.JFrame {
         searchTF = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         studentTable = new javax.swing.JTable();
+        profileSearchBTN = new javax.swing.JButton();
         resultPanel = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         resultIdTF = new javax.swing.JTextField();
-        serachBTN = new javax.swing.JButton();
+        resultSearchBTN = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         currentCGPATF = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         completedCreditTF = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        resultTable = new javax.swing.JTable();
-        serachBTN1 = new javax.swing.JButton();
+        resultUpdateBTN = new javax.swing.JButton();
         resultResetBTN = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        gpaTF = new javax.swing.JTextField();
+        creditTF = new javax.swing.JTextField();
         queriesPanel = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         queryIDTF = new javax.swing.JTextField();
@@ -202,11 +219,6 @@ public class main_page extends javax.swing.JFrame {
         jLabel5.setText("Student ID");
 
         idTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        idTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idTFActionPerformed(evt);
-            }
-        });
 
         nameTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
@@ -244,6 +256,11 @@ public class main_page extends javax.swing.JFrame {
         addBTN.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         addBTN.setForeground(new java.awt.Color(255, 255, 255));
         addBTN.setText("Add");
+        addBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBTNActionPerformed(evt);
+            }
+        });
 
         updateBTN.setBackground(new java.awt.Color(51, 153, 255));
         updateBTN.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
@@ -279,15 +296,9 @@ public class main_page extends javax.swing.JFrame {
         jLabel12.setText("Search ");
 
         searchTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        searchTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchTFActionPerformed(evt);
-            }
-        });
 
         studentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null}
             },
             new String [] {
@@ -302,7 +313,22 @@ public class main_page extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        studentTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                studentTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(studentTable);
+
+        profileSearchBTN.setBackground(new java.awt.Color(153, 153, 255));
+        profileSearchBTN.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        profileSearchBTN.setForeground(new java.awt.Color(255, 255, 255));
+        profileSearchBTN.setText("Search");
+        profileSearchBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileSearchBTNActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout profilePanelLayout = new javax.swing.GroupLayout(profilePanel);
         profilePanel.setLayout(profilePanelLayout);
@@ -311,56 +337,54 @@ public class main_page extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, profilePanelLayout.createSequentialGroup()
                 .addContainerGap(111, Short.MAX_VALUE)
                 .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 858, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(profilePanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 858, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, profilePanelLayout.createSequentialGroup()
-                        .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(profilePanelLayout.createSequentialGroup()
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(profileSearchBTN))
+                    .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(profilePanelLayout.createSequentialGroup()
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(31, 31, 31)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(genderBOX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(deptBOX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(profilePanelLayout.createSequentialGroup()
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(profilePanelLayout.createSequentialGroup()
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(emailTF, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(profilePanelLayout.createSequentialGroup()
+                            .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(addressTF)
                                 .addGroup(profilePanelLayout.createSequentialGroup()
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(31, 31, 31)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(genderBOX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(deptBOX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(profilePanelLayout.createSequentialGroup()
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(idTF, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(profilePanelLayout.createSequentialGroup()
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(emailTF, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(profilePanelLayout.createSequentialGroup()
-                                    .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(addressTF)
+                                        .addComponent(phoneTF, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(profilePanelLayout.createSequentialGroup()
-                                            .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(phoneTF, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGroup(profilePanelLayout.createSequentialGroup()
-                                                    .addComponent(addBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(49, 49, 49)
-                                                    .addComponent(updateBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(49, 49, 49)
-                                                    .addComponent(deleteBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(48, 48, 48)
-                                                    .addComponent(resetBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addGap(0, 0, Short.MAX_VALUE))))))
-                        .addGap(77, 77, 77))))
+                                            .addComponent(addBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(49, 49, 49)
+                                            .addComponent(updateBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(49, 49, 49)
+                                            .addComponent(deleteBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(48, 48, 48)
+                                            .addComponent(resetBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(0, 0, Short.MAX_VALUE))))))
+                .addGap(66, 66, 66))
         );
         profilePanelLayout.setVerticalGroup(
             profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -402,10 +426,11 @@ public class main_page extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(profilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchTF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profileSearchBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(464, 464, 464))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(441, 441, 441))
         );
 
         dashboardTabPanel.addTab("tab1", profilePanel);
@@ -415,13 +440,13 @@ public class main_page extends javax.swing.JFrame {
 
         resultIdTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        serachBTN.setBackground(new java.awt.Color(102, 102, 255));
-        serachBTN.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        serachBTN.setForeground(new java.awt.Color(255, 255, 255));
-        serachBTN.setText("Search");
-        serachBTN.addActionListener(new java.awt.event.ActionListener() {
+        resultSearchBTN.setBackground(new java.awt.Color(102, 102, 255));
+        resultSearchBTN.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        resultSearchBTN.setForeground(new java.awt.Color(255, 255, 255));
+        resultSearchBTN.setText("Search");
+        resultSearchBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                serachBTNActionPerformed(evt);
+                resultSearchBTNActionPerformed(evt);
             }
         });
 
@@ -438,30 +463,13 @@ public class main_page extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         jLabel16.setText("Update Result");
 
-        resultTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Course", "Credit", "Grade"
-            }
-        ));
-        jScrollPane2.setViewportView(resultTable);
-
-        serachBTN1.setBackground(new java.awt.Color(0, 204, 51));
-        serachBTN1.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        serachBTN1.setForeground(new java.awt.Color(255, 255, 255));
-        serachBTN1.setText("Update");
-        serachBTN1.addActionListener(new java.awt.event.ActionListener() {
+        resultUpdateBTN.setBackground(new java.awt.Color(0, 204, 51));
+        resultUpdateBTN.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        resultUpdateBTN.setForeground(new java.awt.Color(255, 255, 255));
+        resultUpdateBTN.setText("Update");
+        resultUpdateBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                serachBTN1ActionPerformed(evt);
+                resultUpdateBTNActionPerformed(evt);
             }
         });
 
@@ -475,35 +483,51 @@ public class main_page extends javax.swing.JFrame {
             }
         });
 
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel18.setText("Running Trimester GPA");
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jLabel19.setText("Running Trimester Completed Credit");
+
+        gpaTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        creditTF.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout resultPanelLayout = new javax.swing.GroupLayout(resultPanel);
         resultPanel.setLayout(resultPanelLayout);
         resultPanelLayout.setHorizontalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resultPanelLayout.createSequentialGroup()
                 .addGap(99, 99, 99)
-                .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(resultPanelLayout.createSequentialGroup()
-                        .addComponent(resultResetBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(serachBTN1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 848, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(resultPanelLayout.createSequentialGroup()
-                            .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(resultPanelLayout.createSequentialGroup()
-                                    .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(68, 68, 68)
-                                    .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(resultIdTF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(currentCGPATF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(completedCreditTF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(33, 33, 33)
-                            .addComponent(serachBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(88, Short.MAX_VALUE))
+                        .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(creditTF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(gpaTF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(resultPanelLayout.createSequentialGroup()
+                        .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(68, 68, 68)
+                        .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(resultIdTF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(currentCGPATF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(completedCreditTF, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addComponent(resultSearchBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(378, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resultPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(resultResetBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(resultUpdateBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(367, 367, 367))
         );
         resultPanelLayout.setVerticalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -512,7 +536,7 @@ public class main_page extends javax.swing.JFrame {
                 .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(resultIdTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(serachBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(resultSearchBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -521,15 +545,21 @@ public class main_page extends javax.swing.JFrame {
                 .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(completedCreditTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(serachBTN1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18)
+                    .addComponent(gpaTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(creditTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(64, 64, 64)
+                .addGroup(resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(resultUpdateBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(resultResetBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addContainerGap(200, Short.MAX_VALUE))
         );
 
         dashboardTabPanel.addTab("tab2", resultPanel);
@@ -543,6 +573,11 @@ public class main_page extends javax.swing.JFrame {
         querySearchBTN.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         querySearchBTN.setForeground(new java.awt.Color(255, 255, 255));
         querySearchBTN.setText("Search");
+        querySearchBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                querySearchBTNActionPerformed(evt);
+            }
+        });
 
         display.setColumns(20);
         display.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -587,47 +622,395 @@ public class main_page extends javax.swing.JFrame {
 
     private void profileTabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileTabMouseClicked
         dashboardTabPanel.setSelectedIndex(0);
+        profileTab.setBackground(clickedColor);
+        resultTab.setBackground(defaultColor);
+        queriesTab.setBackground(defaultColor);
     }//GEN-LAST:event_profileTabMouseClicked
 
     private void resultTabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultTabMouseClicked
         dashboardTabPanel.setSelectedIndex(1);
+        profileTab.setBackground(defaultColor);
+        resultTab.setBackground(clickedColor);
+        queriesTab.setBackground(defaultColor);
     }//GEN-LAST:event_resultTabMouseClicked
 
     private void queriesTabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_queriesTabMouseClicked
-        dashboardTabPanel.setSelectedIndex(2);           
+        dashboardTabPanel.setSelectedIndex(2); 
+        profileTab.setBackground(defaultColor);
+        resultTab.setBackground(defaultColor);
+        queriesTab.setBackground(clickedColor);
     }//GEN-LAST:event_queriesTabMouseClicked
 
-    private void idTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idTFActionPerformed
-
     private void updateBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBTNActionPerformed
-        // TODO add your handling code here:
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+            
+            String id = idTF.getText();
+            String name = nameTF.getText();
+            String gender = genderBOX.getItemAt(genderBOX.getSelectedIndex());
+            String dept = deptBOX.getItemAt(deptBOX.getSelectedIndex());
+            String email = emailTF.getText();
+            String contact = phoneTF.getText();
+            String address = addressTF.getText();
+
+            String query = "UPDATE student_info SET name = ?,gender = ?, dept = ?, mail = ?,contactNum = ?,address = ? WHERE id = ?";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, name);
+            statement.setString(2, gender);
+            statement.setString(3, dept);
+            statement.setString(4, email);
+            statement.setString(5, contact);
+            statement.setString(6, address);
+            statement.setString(7, id);
+            int option = JOptionPane.showConfirmDialog(null, "Are You Sure ??");
+            if(option == JOptionPane.YES_OPTION){
+                statement.executeUpdate();
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+                JOptionPane.showMessageDialog(null, "Record has been updated successfully");
+            }else if(option == JOptionPane.CANCEL_OPTION){
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+            } 
+            
+            DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
+            model.setValueAt("", 0, 0);
+            model.setValueAt("", 0, 1);
+            model.setValueAt("", 0, 2);
+            model.setValueAt("", 0, 3);
+            model.setValueAt("", 0, 4);
+            model.setValueAt("", 0, 5);
+            model.setValueAt("", 0, 6);
+                       
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
     }//GEN-LAST:event_updateBTNActionPerformed
 
     private void deleteBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBTNActionPerformed
-        // TODO add your handling code here:
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+            
+            String id = idTF.getText();            
+
+            String query = "DELETE FROM student_info WHERE id = ?";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, id);
+            
+            String queryTwo = "DELETE FROM student_result WHERE id = ?";
+            PreparedStatement statementTwo = DBConnection.prepareStatement(queryTwo);
+            statementTwo.setString(1, id);
+
+            int option = JOptionPane.showConfirmDialog(null, "Are You Sure ??");
+            if(option == JOptionPane.YES_OPTION){
+                statement.executeUpdate();
+                statementTwo.executeUpdate();
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+                JOptionPane.showMessageDialog(null, "Record has been deleted successfully");
+            }else if(option == JOptionPane.CANCEL_OPTION){
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+            }  
+            
+            DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
+            model.setValueAt("", 0, 0);
+            model.setValueAt("", 0, 1);
+            model.setValueAt("", 0, 2);
+            model.setValueAt("", 0, 3);
+            model.setValueAt("", 0, 4);
+            model.setValueAt("", 0, 5);
+            model.setValueAt("", 0, 6);
+                       
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_deleteBTNActionPerformed
 
     private void resetBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBTNActionPerformed
-        // TODO add your handling code here:
+        idTF.setText("");
+        nameTF.setText("");
+        genderBOX.setSelectedIndex(0);
+        deptBOX.setSelectedIndex(0);
+        emailTF.setText("");
+        phoneTF.setText("");
+        addressTF.setText("");
+        searchTF.setText("");
+        
+        DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
+        model.setValueAt("", 0, 0);
+        model.setValueAt("", 0, 1);
+        model.setValueAt("", 0, 2);
+        model.setValueAt("", 0, 3);
+        model.setValueAt("", 0, 4);
+        model.setValueAt("", 0, 5);
+        model.setValueAt("", 0, 6);
     }//GEN-LAST:event_resetBTNActionPerformed
 
-    private void searchTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchTFActionPerformed
+    private void resultSearchBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultSearchBTNActionPerformed
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+            
+            String searchID = resultIdTF.getText();
+            
+            String query = "SELECT cgpa,credit FROM student_result WHERE id = ?";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, searchID);
+            ResultSet result = statement.executeQuery();
+            
+            if(result.next()==false){
+                JOptionPane.showMessageDialog(null, "Record is not found");
+                resultIdTF.setText("");
+                currentCGPATF.setText("");
+                completedCreditTF.setText("");
+            }else{
+                currentCGPATF.setText(result.getString("cgpa"));
+                completedCreditTF.setText(result.getString("credit"));
+            }
+            
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+    }//GEN-LAST:event_resultSearchBTNActionPerformed
 
-    private void serachBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serachBTNActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_serachBTNActionPerformed
+    private void resultUpdateBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultUpdateBTNActionPerformed
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+            
+            String id = resultIdTF.getText();
+            double cgpa = Double.parseDouble(currentCGPATF.getText());
+            double completeCredit = Double.parseDouble(completedCreditTF.getText());
+            double gpa = Double.parseDouble(gpaTF.getText());
+            double credit = Double.parseDouble(creditTF.getText());
+            
+            double newCompletedCredit = completeCredit+credit;
+            double newCGPA = ((cgpa*completeCredit)+(gpa*credit))/(completeCredit+credit);
 
-    private void serachBTN1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serachBTN1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_serachBTN1ActionPerformed
+            String query = "UPDATE student_result SET cgpa = ?,credit = ? WHERE id = ?";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, String.format("%.2f",newCGPA));
+            statement.setString(2, newCompletedCredit+"");
+            statement.setString(3, id);
+            
+            int option = JOptionPane.showConfirmDialog(null, "Are You Sure ??");
+            if(option == JOptionPane.YES_OPTION){
+                statement.executeUpdate();
+                resultIdTF.setText("");
+                currentCGPATF.setText("");
+                completedCreditTF.setText("");
+                gpaTF.setText("");
+                creditTF.setText("");
+                JOptionPane.showMessageDialog(null, "Result has been updated successfully");
+            }else if(option == JOptionPane.CANCEL_OPTION){
+                resultIdTF.setText("");
+                currentCGPATF.setText("");
+                completedCreditTF.setText("");
+                gpaTF.setText("");
+                creditTF.setText("");
+            } 
+                       
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_resultUpdateBTNActionPerformed
 
     private void resultResetBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultResetBTNActionPerformed
-        // TODO add your handling code here:
+        resultIdTF.setText("");
+        currentCGPATF.setText("");
+        completedCreditTF.setText("");
+        gpaTF.setText("");
+        creditTF.setText("");
     }//GEN-LAST:event_resultResetBTNActionPerformed
+
+    private void addBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBTNActionPerformed
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+
+            String id = idTF.getText();
+            String name = nameTF.getText();
+            String gender = genderBOX.getItemAt(genderBOX.getSelectedIndex());
+            String dept = deptBOX.getItemAt(deptBOX.getSelectedIndex());
+            String email = emailTF.getText();
+            String contact = phoneTF.getText();
+            String address = addressTF.getText();
+
+            String query = "INSERT INTO student_info(id,name,gender,dept,mail,contactNum,address) values(?,?,?,?,?,?,?)";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, id);
+            statement.setString(2, name);
+            statement.setString(3, gender);
+            statement.setString(4, dept);
+            statement.setString(5, email);
+            statement.setString(6, contact);
+            statement.setString(7, address);
+            
+            String queryTwo = "INSERT INTO student_result(id,cgpa,credit) values(?,?,?)";
+            PreparedStatement statementTwo = DBConnection.prepareStatement(queryTwo);
+            statementTwo.setString(1, id);
+            statementTwo.setString(2, "0.00");
+            statementTwo.setString(3, "0.00");
+            
+            int option = JOptionPane.showConfirmDialog(null, "Are You Sure ??");
+            if(option == JOptionPane.YES_OPTION){
+                statement.executeUpdate();
+                statementTwo.executeUpdate();
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+                JOptionPane.showMessageDialog(null, "Profile has been created successfully");
+            }else if(option == JOptionPane.CANCEL_OPTION){
+                idTF.setText("");
+                nameTF.setText("");
+                genderBOX.setSelectedIndex(0);
+                deptBOX.setSelectedIndex(0);
+                emailTF.setText("");
+                phoneTF.setText("");
+                addressTF.setText("");
+            } 
+            
+            DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
+            model.setValueAt("", 0, 0);
+            model.setValueAt("", 0, 1);
+            model.setValueAt("", 0, 2);
+            model.setValueAt("", 0, 3);
+            model.setValueAt("", 0, 4);
+            model.setValueAt("", 0, 5);
+            model.setValueAt("", 0, 6);
+            
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+        
+    }//GEN-LAST:event_addBTNActionPerformed
+
+    private void profileSearchBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileSearchBTNActionPerformed
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+            
+            String searchID = searchTF.getText();
+            String query = "SELECT name,gender,dept,mail,contactNum,address FROM student_info WHERE id = ?";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, searchID);
+            ResultSet result = statement.executeQuery();
+            
+            DefaultTableModel model = (DefaultTableModel) studentTable.getModel();
+            
+            if(result.next()==false){
+                JOptionPane.showMessageDialog(null, "Record is not found");
+                model.setValueAt("", 0, 0);
+                model.setValueAt("", 0, 1);
+                model.setValueAt("", 0, 2);
+                model.setValueAt("", 0, 3);
+                model.setValueAt("", 0, 4);
+                model.setValueAt("", 0, 5);
+                model.setValueAt("", 0, 6);
+                searchTF.setText("");
+            }else{
+                model.setValueAt(searchID, 0, 0);
+                model.setValueAt(result.getString("name"), 0, 1);
+                model.setValueAt(result.getString("dept"), 0, 2);
+                model.setValueAt(result.getString("mail"), 0, 3);
+                model.setValueAt(result.getString("contactNum"), 0, 4);
+                model.setValueAt(result.getString("address"), 0, 5);
+                model.setValueAt(result.getString("gender"), 0, 6);
+                searchTF.setText("");
+            }
+            
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }                     
+    }//GEN-LAST:event_profileSearchBTNActionPerformed
+
+    private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked
+        DefaultTableModel model = (DefaultTableModel)studentTable.getModel();
+        int selectedRow = studentTable.getSelectedRow();
+        
+        
+        idTF.setText(model.getValueAt(selectedRow, 0)+"");
+        nameTF.setText(model.getValueAt(selectedRow, 1)+"");
+        emailTF.setText(model.getValueAt(selectedRow, 3)+"");
+        phoneTF.setText(model.getValueAt(selectedRow, 4)+"");
+        addressTF.setText(model.getValueAt(selectedRow, 5)+"");
+        
+        if(model.getValueAt(selectedRow, 2).equals("CSE")){
+           deptBOX.setSelectedIndex(0);
+        }else if(model.getValueAt(selectedRow, 2).equals("EEE")){
+            deptBOX.setSelectedIndex(1);
+        }else if(model.getValueAt(selectedRow, 2).equals("BBA")){
+            deptBOX.setSelectedIndex(2);
+        }else{
+            deptBOX.setSelectedIndex(3);
+        }
+        
+        if(model.getValueAt(selectedRow, 6).equals("Male")){
+           genderBOX.setSelectedIndex(0);
+        }else if(model.getValueAt(selectedRow, 6).equals("Female")){
+             genderBOX.setSelectedIndex(1);
+        }else{
+             genderBOX.setSelectedIndex(2);
+        }
+    }//GEN-LAST:event_studentTableMouseClicked
+
+    private void querySearchBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_querySearchBTNActionPerformed
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+            
+            String searchID = queryIDTF.getText();
+            String query = "SELECT name,dept,mail,contactNum,address,cgpa,credit FROM student_info,student_result WHERE student_info.id = ?";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, searchID);
+            ResultSet result = statement.executeQuery();            
+                       
+            if(result.next()==false){
+                JOptionPane.showMessageDialog(null, "Record is not found");
+                searchTF.setText("");
+            }else{
+                String line = "Student Name : "+result.getString("name")+"\nStudent ID : "+searchID+
+                        "\nDepartment : "+result.getString("dept")+"\n"+"Contact No : "+result.getString("contactNum")+
+                        "\nEmail : "+result.getString("mail")+"\nAddress : "+result.getString("address")+
+                        "\nCGPA : "+result.getString("cgpa")+"\nCredit Complete : "+result.getString("credit");
+                display.append(line);
+                queryIDTF.setText("");
+            }
+            
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_querySearchBTNActionPerformed
 
     public static void main(String args[]) {
  
@@ -642,6 +1025,7 @@ public class main_page extends javax.swing.JFrame {
     private javax.swing.JButton addBTN;
     private javax.swing.JTextField addressTF;
     private javax.swing.JTextField completedCreditTF;
+    private javax.swing.JTextField creditTF;
     private javax.swing.JTextField currentCGPATF;
     private javax.swing.JTabbedPane dashboardTabPanel;
     private javax.swing.JButton deleteBTN;
@@ -649,6 +1033,7 @@ public class main_page extends javax.swing.JFrame {
     private javax.swing.JTextArea display;
     private javax.swing.JTextField emailTF;
     private javax.swing.JComboBox<String> genderBOX;
+    private javax.swing.JTextField gpaTF;
     private javax.swing.JTextField idTF;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -659,6 +1044,8 @@ public class main_page extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -670,11 +1057,11 @@ public class main_page extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField nameTF;
     private javax.swing.JTextField phoneTF;
     private javax.swing.JPanel profilePanel;
+    private javax.swing.JButton profileSearchBTN;
     private javax.swing.JPanel profileTab;
     private javax.swing.JPanel queriesPanel;
     private javax.swing.JPanel queriesTab;
@@ -684,11 +1071,10 @@ public class main_page extends javax.swing.JFrame {
     private javax.swing.JTextField resultIdTF;
     private javax.swing.JPanel resultPanel;
     private javax.swing.JButton resultResetBTN;
+    private javax.swing.JButton resultSearchBTN;
     private javax.swing.JPanel resultTab;
-    private javax.swing.JTable resultTable;
+    private javax.swing.JButton resultUpdateBTN;
     private javax.swing.JTextField searchTF;
-    private javax.swing.JButton serachBTN;
-    private javax.swing.JButton serachBTN1;
     private javax.swing.JTable studentTable;
     private javax.swing.JButton updateBTN;
     // End of variables declaration//GEN-END:variables
