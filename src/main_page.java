@@ -573,6 +573,11 @@ public class main_page extends javax.swing.JFrame {
         querySearchBTN.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         querySearchBTN.setForeground(new java.awt.Color(255, 255, 255));
         querySearchBTN.setText("Search");
+        querySearchBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                querySearchBTNActionPerformed(evt);
+            }
+        });
 
         display.setColumns(20);
         display.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -946,10 +951,7 @@ public class main_page extends javax.swing.JFrame {
             DBConnection.close();
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        
-        
-        
+        }                     
     }//GEN-LAST:event_profileSearchBTNActionPerformed
 
     private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked
@@ -981,6 +983,34 @@ public class main_page extends javax.swing.JFrame {
              genderBOX.setSelectedIndex(2);
         }
     }//GEN-LAST:event_studentTableMouseClicked
+
+    private void querySearchBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_querySearchBTNActionPerformed
+        try{
+            Connection DBConnection = DatabaseConnection.connectDB();
+            
+            String searchID = queryIDTF.getText();
+            String query = "SELECT name,dept,mail,contactNum,address,cgpa,credit FROM student_info,student_result WHERE student_info.id = ?";
+            PreparedStatement statement = DBConnection.prepareStatement(query);
+            statement.setString(1, searchID);
+            ResultSet result = statement.executeQuery();            
+                       
+            if(result.next()==false){
+                JOptionPane.showMessageDialog(null, "Record is not found");
+                searchTF.setText("");
+            }else{
+                String line = "Student Name : "+result.getString("name")+"\nStudent ID : "+searchID+
+                        "\nDepartment : "+result.getString("dept")+"\n"+"Contact No : "+result.getString("contactNum")+
+                        "\nEmail : "+result.getString("mail")+"\nAddress : "+result.getString("address")+
+                        "\nCGPA : "+result.getString("cgpa")+"\nCredit Complete : "+result.getString("credit");
+                display.append(line);
+                queryIDTF.setText("");
+            }
+            
+            DBConnection.close();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_querySearchBTNActionPerformed
 
     public static void main(String args[]) {
  
